@@ -12,6 +12,7 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+
 //====>Pongo alle variabili delle selezioni un valore :
 score0EL.textContent = 0;
 score1EL.textContent = 0;
@@ -20,6 +21,7 @@ diceEL.classList.add('hidden');
 const scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
+let playining = true;
 
 const switchPlayer = function () {
     document.getElementById(`current--${activePlayer}`).textContent = 0;
@@ -27,13 +29,13 @@ const switchPlayer = function () {
     activePlayer = activePlayer === 0 ? 1 : 0;
     player0EL.classList.toggle("player--active");
     player1EL.classList.toggle("player--active");
-    document.getElementById(`current--${activePlayer}`).textContent = currentScore;
 
 };
 
 //====>Funzione tiro dei dadi :
 btnRoll.addEventListener('click', function () {
-  //1-Generare random tiro dadi
+    if(playining) {
+        //1-Generare random tiro dadi
   const dice = Math.trunc(Math.random() * 6) + 1;
 
   ///---> 2-Display dadi
@@ -51,23 +53,37 @@ btnRoll.addEventListener('click', function () {
     switchPlayer();
     
   }
+
+    }
+  
 });
 //====>Funzione tasto hold :
 btnHold.addEventListener("click", function () {
-    //----> 1-Aggiungi punteggio corrente  al punteggio totale (scores[1]+=currentScore) del giocatore attico(activePlayer).
-    scores[activePlayer] += currentScore;
-    document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
-     
-    //---> 2-Controlla se il punteggio del giocatore è >= 100 :
-       //fine gioco,
-      
-        // altrimenti cambia giocatore
-    
-        switchPlayer();
+    if(playining) { 
+        //----> 1-Aggiungi punteggio corrente  al punteggio totale (scores[1]+=currentScore) del giocatore attico(activePlayer).
+        scores[activePlayer] += currentScore;
+        document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
+         
+        //---> 2-Controlla : se il punteggio del giocatore è >= 100 :
+           //fine gioco,
+        
+          if (scores[activePlayer] >= 100) {
+            //fine gioco, 
+            playining = false;
+            diceEL.classList.add('hidden');
+            document.querySelector(`.player--${activePlayer}`).classList.add("player--winner");
+            document.querySelector(`.player--${activePlayer}`).classList.remove("player--active");
+          }else{
+              // altrimenti cambia giocatore e resetta il punteggio corrente dopo aver cambiato giocatore.
+              switchPlayer();
+             
+          }
 
-          // Resetta il punteggio corrente dopo aver cambiato giocatore
-    currentScore = 0;
-});
+    }
+    
+  });
+
+      
 
 
 
