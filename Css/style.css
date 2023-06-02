@@ -168,3 +168,23 @@ main {
 .hidden {
   display: none;
 }
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:xx-large;
+  padding: 10px;
+  margin-top: auto; 
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 900;
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  background-color: #dbadda; 
+}
+
+
+
+
+
